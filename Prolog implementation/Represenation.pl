@@ -39,7 +39,50 @@ make_board(Rows,Columns,[R1,C1],[R2,C2],B):-
  insertbombRow_at(R1,C1,S,B1) ,  insertbombRow_at(R2,C2,B1,B).      %step 2 poistion the two bombs
 
 %Actions    put a domino on the wall
+
+insertDominoColumn_at(1,[H,H2|B],[-,-|B]):-!.            %stopping condition  -> put the bomb 'O' instead of '*'
+insertDominoColumn_at(Column,[H|Tail],[H|NewTail]):-  % our list and result list
+Column > 1,
+NewColumn is Column - 1,
+insertDominoColumn_at(NewColumn,Tail,NewTail).
+
+insertDominoRow_at(1,Column,[H|T],[X|T]):- %stopping condition reached the row that i want to modify in
+insertDominoColumn_at(Column,H,X),!.
+insertDominoRow_at(Row,Column,[H|Tail],[H|NewTail]):-
+Row > 1,
+NewRow is Row -1,
+insertDominoRow_at(NewRow,Column,Tail,NewTail).
+
+horizontal([R|_],OC,IndexRow,IndexColumn,IndexRow,IndexColumn):-
+    R = [*,*|_] , !.
+
+horizontal([R|T],OC,IndexRow,IndexColumn,IR,IC):-
+    R =[],
+    NewIndexRow is IndexRow -1,
+    horizontal(T,OC,NewIndexRow,OC,IR,IC).
+
+horizontal([R|T],OC,IndexRow,IndexColumn,IR,IC):-
+    R =[H|T2],
+    NewIndexColumn is IndexColumn - 1,
+    horizontal([T2|T],OC,IndexRow,NewIndexColumn,IR,IC).
+
+
+
+action(Board,Rows,Columns,NewBoard):-
+    Temp = Board,
+    horizontal(Temp,Columns,Rows,Columns,IR,IC),
+    insertDominoRow_at(IR,IC,Board,NewBoard).
+
+    
 %Rules      
 %Each domino piece completely covers two squares. (You are allowed to rotate the domino pieces)
 % No two dominoes overlap.
 % Each domino lies entirely inside the board It is allowed to touch the edges of the board and not allowed to lie on the bomb cell
+is_okay():-true.
+
+/*[[-,-,O]
+ [O,*,*]
+ [*,*,*]
+ ]*/
+
+
