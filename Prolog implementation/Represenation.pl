@@ -1,6 +1,4 @@
-% TO-DO make more detailed comments  
-% TO-DO ensure that everything is logical  
-% TO-DO make stopping conditon for every perdiacte
+
 %state      board is made of matrix
 % make a row in a list or a sub list.
 
