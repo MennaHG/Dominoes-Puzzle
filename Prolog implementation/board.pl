@@ -47,7 +47,7 @@ make_board(Rows,Columns,[R1,C1],[R2,C2],B):-
 /***********************    ACTIONS    *********************/
 
 horizontal([R|_],OC,IndexRow,IndexColumn,IndexRow,IndexColumn):-
-    R = [*,*|_] , !.
+    R = [*,*|_] .
 
 horizontal([R|T],OC,IndexRow,IndexColumn,IR,IC):-
     R = [],
@@ -62,7 +62,7 @@ horizontal([R|T],OC,IndexRow,IndexColumn,IR,IC):-
 vertical([FirstRow,SecondRow|_], OC, IndexRow, IndexColumn, IndexRow, IndexColumn):-
     ColumnCordinate is OC - IndexColumn + 1,
     FirstRow = [*|_],
-    nth0(ColumnCordinate, SecondRow, *), !.
+    nth1(ColumnCordinate, SecondRow, *).
 
 vertical([R|T], OC, IndexRow, IndexColumn, IR, IC):-
     R = [],
