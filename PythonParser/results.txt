@@ -1,0 +1,64 @@
+Search is Complete
+X = [[-, -, 'O'], ['O', -, -], [-, -, *]] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', -, -], [*, -, -]] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', -, -], [-, -, *]] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', *, '|'], [-, -, '|']] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', -, -], [*, -, -]] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', '|', '|'], [*, '|', '|']] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', *, '|'], [-, -, '|']] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', '|', '|'], [*, '|', '|']] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', -, -], [-, -, *]] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', -, -], [*, -, -]] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', -, -], [-, -, *]] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', -, -], [*, -, -]] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', -, -], [-, -, *]] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', *, '|'], [-, -, '|']] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', -, -], [-, -, *]] ;
+Search is Complete
+X = [[*, '|', 'O'], ['O', '|', '|'], [-, -, '|']] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', *, '|'], [-, -, '|']] ;
+Search is Complete
+X = [[*, '|', 'O'], ['O', '|', '|'], [-, -, '|']] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', -, -], [*, -, -]] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', -, -], [*, -, -]] ;
+Search is Complete
+X = [[*, '|', 'O'], ['O', '|', *], [*, -, -]] ;
+Search is Complete
+X = [[*, '|', 'O'], ['O', '|', '|'], [-, -, '|']] ;
+Search is Complete
+X = [[*, '|', 'O'], ['O', '|', *], [*, -, -]] ;
+Search is Complete
+X = [[*, '|', 'O'], ['O', '|', '|'], [-, -, '|']] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', '|', '|'], [*, '|', '|']] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', '|', '|'], [*, '|', '|']] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', *, '|'], [-, -, '|']] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', '|', '|'], [*, '|', '|']] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', *, '|'], [-, -, '|']] ;
+Search is Complete
+X = [[*, '|', 'O'], ['O', '|', '|'], [-, -, '|']] ;
+Search is Complete
+X = [[*, '|', 'O'], ['O', '|', '|'], [-, -, '|']] ;
+Search is Complete
+X = [[-, -, 'O'], ['O', '|', '|'], [*, '|', '|']] ;
