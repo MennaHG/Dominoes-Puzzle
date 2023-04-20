@@ -101,7 +101,7 @@ action(Board,Rows,Columns,NewBoard):-
 
     
 
-is_okay():-true.
+is_okay(Board):-true.
 
 /*
 [
