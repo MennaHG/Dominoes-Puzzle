@@ -241,7 +241,8 @@ public class gui extends javax.swing.JFrame {
     private void output(String s){
             outputPanel.removeAll();
           s=s.replaceAll("[^*lO-]","");int rows = (int) Rows.getValue(), cols= (int) Cols.getValue();
-          List<Integer> skippedCells= new ArrayList<Integer>(); int skippedRowCell=-1;
+          //List<Integer> skippedCells= new ArrayList<Integer>(); int skippedRowCell=-1;
+          ArrayList<ArrayList<Integer>> skippedCells = new ArrayList<ArrayList<Integer>>();
         //  String strArray[] = s.split(",");  
                      System.out.print((s));
         GridBagConstraints gbc = new GridBagConstraints();
@@ -250,14 +251,14 @@ public class gui extends javax.swing.JFrame {
                 for(Integer j=0;j<cols && k < s.length();j++){
                   //   System.out.print(strArray[k]);
                   //   outputPanel.add(new JButton(strArray[k++]));
-                  if(skippedRowCell==i && skippedCells.contains(j) && s.charAt(k) == 'l'){ 
+                  if( skippedCells.contains(new ArrayList<Integer>(Arrays.asList(i,j))) && s.charAt(k) == 'l'){ 
                        //    System.out.println("SKIPPED AT: ["+i+"]["+j+"] char:"+s.charAt(k)+"NOW TO: i= "+(i)+" j= "+(j+1));
                             skippedCells.remove(j); k++; continue;   }
-                    gbc.gridx = j;
-                    gbc.gridy = i;
-                    gbc.gridwidth = 1;
-                    gbc.gridheight=1;
-                    JButton btn = new JButton();
+                  gbc.gridx = j;
+                  gbc.gridy = i;
+                  gbc.gridwidth = 1;
+                  gbc.gridheight=1;
+                  JButton btn = new JButton();
                 if(s.charAt(k)=='O'  ){ btn.setIcon(resizeIcon(new ImageIcon("bomb.png"),60,60)); 
                   // System.out.println("Height=" + buttons[i][j].getPreferredSize().height+"\nWidth= "+buttons[i][j].getPreferredSize().width);
 
@@ -271,10 +272,10 @@ public class gui extends javax.swing.JFrame {
                 if(s.charAt(k)=='-'  ){ gbc.gridwidth=2;
                                         btn.setIcon(resizeIcon(new ImageIcon("hdomino.jpg"),60,60));j++;k++;    }    
                 if(s.charAt(k)=='l'  ){ 
-                    gbc.gridheight=2; skippedCells.add(j); skippedRowCell=i+1;
+                    gbc.gridheight=2; skippedCells.add(new ArrayList<Integer>(Arrays.asList(i+1,j))); //skippedRowCell=i+1;
                     btn.setIcon(resizeIcon(new ImageIcon("vdomino.png"),60,60)); }               
                     outputPanel.add(btn,gbc);
-                    k++;
+                k++;
                 }
             }    
                  updatePanel(outputPanel);
@@ -304,7 +305,7 @@ public class gui extends javax.swing.JFrame {
      //   System.out.print(generateInputQuery("uSearch));
      // Query q = new Query("consult('file1.pl'), consult('file2.pl')");
         Query q = new Query("consult('../Prolog implementation/board.pl'),consult('../Prolog implementation/uninformed.pl')"); 
-        int rows = (int) Rows.getValue(), cols= (int) Cols.getValue();
+     //   int rows = (int) Rows.getValue(), cols= (int) Cols.getValue();
        q.hasSolution();
         q= new Query(generateInputQuery(searchStrategy));
         Map<String,Term>[] solutions = q.allSolutions(); 
@@ -351,10 +352,7 @@ public class gui extends javax.swing.JFrame {
         if(curSlide == 0){prevBtn.setEnabled(false); nextBtn.setEnabled(true);return;}
         prevBtn.setEnabled(true); nextBtn.setEnabled(true);
     }
-    private void incrementCurSlide(){
-        curSlide++;
-        if(curSlide >= Results.length){nextBtn.setEnabled(false);return;}
-    }
+   
     /**
      * @param args the command line arguments
      */
