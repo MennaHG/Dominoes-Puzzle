@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 import org.jpl7.*;
 /**
@@ -17,9 +19,6 @@ public class PrologJava {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        gui.main(null);
-          
-        // TODO code application logic here
+      gui.main(null);
     }
-    
 }

@@ -1,0 +1,6 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\menna\\OneDrive\\Documents\\NetBeansProjects\\prologJava\\dist\\lib\\jpl.jar"
+    ]
+}

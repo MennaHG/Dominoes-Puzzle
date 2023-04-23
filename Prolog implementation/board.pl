@@ -95,8 +95,8 @@ action(Board,Rows,Columns,NewBoard):-
         RowCordinate is Rows - IR + 1,
         ColumnCordinate is Columns - IC + 1,
         SecondRowCordinate is RowCordinate + 1,
-        insert(Board, RowCordinate, ColumnCordinate, '|', Board2),
-        insert(Board2, SecondRowCordinate, ColumnCordinate, '|', NewBoard)
+        insert(Board, RowCordinate, ColumnCordinate, l, Board2),
+        insert(Board2, SecondRowCordinate, ColumnCordinate, l, NewBoard)
     ).
 
     

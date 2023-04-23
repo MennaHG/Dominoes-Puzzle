@@ -1,13 +1,25 @@
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import org.jpl7.Query;
+import org.jpl7.Term;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -25,7 +37,9 @@ public class gui extends javax.swing.JFrame {
      * Creates new form gui
      */
     public gui() {
-        initComponents();
+       //initalizePuzzle();
+        initComponents(); 
+        assignPuzzle(inputPanel);
     }
 
     /**
@@ -37,86 +51,132 @@ public class gui extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        TopBar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         Rows = new javax.swing.JSpinner();
         jLabel2 = new javax.swing.JLabel();
         Cols = new javax.swing.JSpinner();
         resetBtn = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        uninformedBtn = new javax.swing.JButton();
+        informedBtn = new javax.swing.JButton();
+        inputPanel = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
+        prevBtn = new javax.swing.JButton();
+        outputPanel = new javax.swing.JPanel();
+        nextBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 255));
+        TopBar.setBackground(new java.awt.Color(204, 204, 255));
         resetBtn.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("Yu Gothic Medium", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Yu Gothic Medium", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("ROWS");
-        jPanel1.add(jLabel1);
+        TopBar.add(jLabel1);
 
-        Rows.setValue(0);
+        Rows.setValue(2);
         Rows.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 RowsStateChanged(evt);
             }
         });
-        jPanel1.add(Rows);
+        TopBar.add(Rows);
 
-        jLabel2.setFont(new java.awt.Font("Yu Gothic Medium", 1, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Yu Gothic Medium", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("COLUMNS");
-        jPanel1.add(jLabel2);
+        TopBar.add(jLabel2);
 
-        Cols.setValue(0);
+        Cols.setValue(2);
         Cols.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 ColsStateChanged(evt);
             }
         });
-        jPanel1.add(Cols);
+        TopBar.add(Cols);
 
         resetBtn.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
         resetBtn.setText("Reset");
+        resetBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         resetBtn.setMargin(new java.awt.Insets(4, 14, 2, 14));
         resetBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 resetBtnActionPerformed(evt);
             }
         });
-        jPanel1.add(resetBtn);
+        TopBar.add(resetBtn);
 
-        getContentPane().add(jPanel1);
+        uninformedBtn.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
+        uninformedBtn.setText("Uninformed");
+        uninformedBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        uninformedBtn.setMargin(new java.awt.Insets(4, 14, 2, 14));
+        uninformedBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                uninformedBtnActionPerformed(evt);
+            }
+        });
+        TopBar.add(uninformedBtn);
 
-        jPanel2.setBackground(new java.awt.Color(204, 204, 255));
+        informedBtn.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
+        informedBtn.setText("Informed");
+        informedBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        informedBtn.setMargin(new java.awt.Insets(4, 14, 2, 14));
+        informedBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                informedBtnActionPerformed(evt);
+            }
+        });
+        TopBar.add(informedBtn);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        getContentPane().add(TopBar);
+
+        inputPanel.setBackground(new java.awt.Color(204, 204, 255));
+
+        javax.swing.GroupLayout inputPanelLayout = new javax.swing.GroupLayout(inputPanel);
+        inputPanel.setLayout(inputPanelLayout);
+        inputPanelLayout.setHorizontalGroup(
+            inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 1000, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 342, Short.MAX_VALUE)
+        inputPanelLayout.setVerticalGroup(
+            inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 365, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel2);
+        getContentPane().add(inputPanel);
 
         jPanel3.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel3.setBorder(BorderFactory.createEmptyBorder(10, 20,10,20));
+        jPanel3.setLayout(new java.awt.GridLayout(1, 6, 10, 0));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 103, Short.MAX_VALUE)
-        );
+        prevBtn.setIcon(new ImageIcon("prevarrow.png"));
+
+        prevBtn.setOpaque(false);
+        prevBtn.setBackground(new Color(0, 0, 0, 0));
+        prevBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        prevBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prevBtnActionPerformed(evt);
+            }
+        });
+        jPanel3.add(prevBtn);
+
+        outputPanel.setLayout(new java.awt.GridBagLayout());
+        jPanel3.add(outputPanel);
+
+        nextBtn.setIcon(new ImageIcon("nextarrow.png"));
+        nextBtn.setSize(20, 20);
+        nextBtn.setOpaque(false);
+        nextBtn.setBackground(new Color(0, 0, 0, 0));
+        nextBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        nextBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextBtnActionPerformed(evt);
+            }
+        });
+        jPanel3.add(nextBtn);
 
         getContentPane().add(jPanel3);
 
@@ -124,59 +184,177 @@ public class gui extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
-           initalizePuzzle();
+           assignPuzzle(inputPanel); outputPanel.removeAll();
     }//GEN-LAST:event_resetBtnActionPerformed
 
     
-    private static Icon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) {
-    Image img = icon.getImage();  
-    Image resizedImage = img.getScaledInstance(resizedWidth, resizedHeight,  java.awt.Image.SCALE_SMOOTH);  
-    return new ImageIcon(resizedImage);
-}
+    private Icon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) {
+            Image img = icon.getImage();  
+            Image resizedImage = img.getScaledInstance(resizedWidth, resizedHeight,  java.awt.Image.SCALE_SMOOTH);  
+            return new ImageIcon(resizedImage); 
+    }
     
     private JButton createPuzzleItem(){
            JButton btn = new JButton();    //btn.setPreferredSize(new Dimension(60,60));
                     btn.setMinimumSize(new Dimension(90,90));
-                    btn.addActionListener(new java.awt.event.ActionListener() {
-                            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                              //btn.setText("Clicked!");
-                           //   btn.getSize().height;
-                           Icon icon = (btn.getIcon() == null)?resizeIcon(new ImageIcon("bomb.png"),80,80):null;
-                            btn.setIcon(icon);
-                            }
-        });
-                    jPanel2.add(btn);
-            return btn;
+                    btn.addActionListener((java.awt.event.ActionEvent evt) -> {
+                        //btn.setText("Clicked!");
+                        //   btn.getSize().height;
+                        Icon icon = (btn.getIcon() == null )?resizeIcon(new ImageIcon("bomb.png"),80,80):null;
+                        btn.setIcon(icon);
+                        if(icon == null){Dimension size = btn.getPreferredSize();
+                                size.width += 60;
+                                size.height += 60;
+                                btn.setPreferredSize(size);
+                                }
+           });
+                    return btn;
          }
     
     
-    private void initalizePuzzle(){
+    private void assignPuzzle(JPanel jPanel){
         int x=  (Integer) Rows.getValue(); int y=  (Integer) Cols.getValue();  
-        jPanel2.setBorder(BorderFactory.createEmptyBorder(10, 20,10,20));
+        jPanel.setBorder(BorderFactory.createEmptyBorder(10, 20,10,20));
         buttons = new JButton[x][y];
            // jPanel2.add(btn,0,0);
            // jPanel2.add(btn,1,0);
-            jPanel2.removeAll();
+            jPanel.removeAll();
             //jPanel2.add(btn,0,2);
             for(int i=0;i<x;i++){
                 for(int j=0; j<y; j++){ 
-                    buttons[i][j]= createPuzzleItem();
-                    
+                    buttons[i][j]= createPuzzleItem();  jPanel.add(buttons[i][j]);
                 }
             }          
-              jPanel2.setLayout(new GridLayout(x,y,10,10));
-              jPanel2.revalidate(); jPanel2.repaint(); jPanel2.updateUI();
+              jPanel.setLayout(new GridLayout(x,y,10,10)); jPanel.setSize(100,100);
+              jPanel.revalidate(); jPanel.repaint(); jPanel.updateUI();
 }
     private void ColsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ColsStateChanged
-        initalizePuzzle();
+        assignPuzzle(inputPanel);
     }//GEN-LAST:event_ColsStateChanged
 
     private void RowsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_RowsStateChanged
-        initalizePuzzle();
+        assignPuzzle(inputPanel);
 // TODO add your handling code here:
     }//GEN-LAST:event_RowsStateChanged
 
     
+    private void output(String s){
+            outputPanel.removeAll();
+          s=s.replaceAll("[^*lO-]","");int rows = (int) Rows.getValue(), cols= (int) Cols.getValue();
+          List<Integer> skippedCells= new ArrayList<Integer>(); int skippedRowCell=-1;
+        //  String strArray[] = s.split(",");  
+                     System.out.print((s));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+         for(Integer i=0,k=0;i<rows && k < s.length();i++){
+                for(Integer j=0;j<cols && k < s.length();j++){
+                  //   System.out.print(strArray[k]);
+                  //   outputPanel.add(new JButton(strArray[k++]));
+                  if(skippedRowCell==i && skippedCells.contains(j) && s.charAt(k) == 'l'){ 
+                       //    System.out.println("SKIPPED AT: ["+i+"]["+j+"] char:"+s.charAt(k)+"NOW TO: i= "+(i)+" j= "+(j+1));
+                            skippedCells.remove(j); k++; continue;   }
+                    gbc.gridx = j;
+                    gbc.gridy = i;
+                    gbc.gridwidth = 1;
+                    gbc.gridheight=1;
+                    JButton btn = new JButton();
+                if(s.charAt(k)=='O'  ){ btn.setIcon(resizeIcon(new ImageIcon("bomb.png"),60,60)); 
+                  // System.out.println("Height=" + buttons[i][j].getPreferredSize().height+"\nWidth= "+buttons[i][j].getPreferredSize().width);
+
+                }
+                if(s.charAt(k)=='*'  ){ //btn.setIcon(resizeIcon(new ImageIcon(""),60,60));   
+                    Dimension size = btn.getPreferredSize();
+                    size.width += 60;
+                    size.height += 60;
+                    btn.setPreferredSize(size);
+                               }
+                if(s.charAt(k)=='-'  ){ gbc.gridwidth=2;
+                                        btn.setIcon(resizeIcon(new ImageIcon("hdomino.jpg"),60,60));j++;k++;    }    
+                if(s.charAt(k)=='l'  ){ 
+                    gbc.gridheight=2; skippedCells.add(j); skippedRowCell=i+1;
+                    btn.setIcon(resizeIcon(new ImageIcon("vdomino.png"),60,60)); }               
+                    outputPanel.add(btn,gbc);
+                    k++;
+                }
+            }    
+                 updatePanel(outputPanel);
+
+        }
+   
+    
+    private String generateInputQuery(String searchTechnique){
+        String query=searchTechnique+"(["; int rows = (int) Rows.getValue(), cols= (int) Cols.getValue();
+        for(int i=0;i<rows;i++){
+            query+="[";
+            for(int j=0;j<cols;j++){
+                //char boardItem = 'O'; 
+              //  System.out.println( (buttons[i][j].getIcon()==null)?"null":"NOTnull");
+
+                query+=(buttons[i][j].getIcon() == null)?"*":"'O'";
+                query+=(j<cols-1)?",":"";
+            }
+            query+=(i<rows -1)?"],":"]";
+        }
+    return query+"],["+rows+","+cols+"],[],X)";
+    }
+    
+    
+    private void generateSolution(String searchStrategy){
+        outputPanel.removeAll();
+     //   System.out.print(generateInputQuery("uSearch));
+     // Query q = new Query("consult('file1.pl'), consult('file2.pl')");
+        Query q = new Query("consult('../Prolog implementation/board.pl'),consult('../Prolog implementation/uninformed.pl')"); 
+        int rows = (int) Rows.getValue(), cols= (int) Cols.getValue();
+       q.hasSolution();
+        q= new Query(generateInputQuery(searchStrategy));
+        Map<String,Term>[] solutions = q.allSolutions(); 
+        Set<String> ResultsSet = new HashSet<String>(); 
+        for (Map<String, Term> sol :solutions) {
+        String s = (sol.toString()); ResultsSet.add(s); }
+        Results = ResultsSet.toArray(new String[0]);
+        outputPanel.setBorder(BorderFactory.createEmptyBorder(10, 20,10,20));
+        outputPanel.setLayout(new GridBagLayout());
+        output(Results[curSlide]); curSlideChecker();
+    }
+    private void uninformedBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uninformedBtnActionPerformed
+        generateSolution("uSearch");
+    }//GEN-LAST:event_uninformedBtnActionPerformed
+
+    private void prevBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevBtnActionPerformed
+                curSlide--;
+            curSlideChecker();
+       // System.out.println("SOLUTION NUMBER: "+(curSlide));
+        output(Results[curSlide]);
+    }//GEN-LAST:event_prevBtnActionPerformed
+
+    private void nextBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextBtnActionPerformed
+        curSlide++;
+       curSlideChecker();
+       // System.out.println("SOLUTION NUMBER: "+(curSlide));
+        output(Results[curSlide]);
+    }//GEN-LAST:event_nextBtnActionPerformed
+
+    private void informedBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_informedBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_informedBtnActionPerformed
+
+    
+    
+    private void updatePanel(JPanel panel){
+                      panel.revalidate(); panel.repaint(); panel.updateUI();
+
+    }
+    private void curSlideChecker(){
+        
+        if(Results.length ==1){prevBtn.setEnabled(false); nextBtn.setEnabled(false); return;}
+        if(curSlide >= Results.length-1){nextBtn.setEnabled(false); prevBtn.setEnabled(true); return;}
+        if(curSlide == 0){prevBtn.setEnabled(false); nextBtn.setEnabled(true);return;}
+        prevBtn.setEnabled(true); nextBtn.setEnabled(true);
+    }
+    private void incrementCurSlide(){
+        curSlide++;
+        if(curSlide >= Results.length){nextBtn.setEnabled(false);return;}
+    }
     /**
      * @param args the command line arguments
      */
@@ -211,16 +389,24 @@ public class gui extends javax.swing.JFrame {
             }
         });
     }
-    public JPanel getPanel(){return jPanel1;}
+    public JPanel getPanel(){return TopBar;}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSpinner Cols;
     private javax.swing.JSpinner Rows;
+    private javax.swing.JPanel TopBar;
+    private javax.swing.JButton informedBtn;
+    private javax.swing.JPanel inputPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JButton nextBtn;
+    private javax.swing.JPanel outputPanel;
+    private javax.swing.JButton prevBtn;
     private javax.swing.JButton resetBtn;
+    private javax.swing.JButton uninformedBtn;
     // End of variables declaration//GEN-END:variables
     private JButton[][] buttons;
+    private String[] Results;
+    private int curSlide=0;
+   // private int Nsols=0;
 }
