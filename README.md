@@ -9,4 +9,6 @@ board and not allowed to lie on the bomb cell.
 
 - Implemented in Java(JPL/Swing) , Prolog
 
-![Screenshot (141)](https://user-images.githubusercontent.com/105600225/234048767-b50c91d4-507d-4f9a-a9b7-23379bf233d1.png)
+![Screenshot (125)](https://user-images.githubusercontent.com/105600225/234048938-9440321f-60ed-4ad2-a9d4-ea5be95ddc93.png)
+
+![Screenshot (126)](https://user-images.githubusercontent.com/105600225/234048880-9822905f-8b6d-4364-97ab-f5c52de88fb6.png)
