@@ -1,21 +1,57 @@
 
 /***************************    TO-DO:-FIGURE OUT STATE     ************************************/
 %baseCase
-search(Open,[R,C] ,Closed):-
+
+
+search(Open,[R,C] ,Closed,G):-
     getBestState(Open, [CurrentState,Parent,G,H,F], _), % G actual cost ,H heuirstic cost ,F = G + H 
     not(move(CurrentState, R,C,Next, MoveCost)), % Step 2
-    write("Search is complete!"), nl,
-    printSolution([CurrentState,Parent,G,H,F], Closed). 
+    !.
 
+optimal(Open,[R,C] ,Closed):-
+    search(Open,[R,C] ,Closed,G),
+    isearch(Open,[R,C] ,Closed,CurrentState,G).
 
+isearch(Open,[R,C] ,Closed,CurrentState,PG):-
+    getBestState(Open, [CurrentState,Parent,G,H,F], _), % G actual cost ,H heuirstic cost ,F = G + H 
+    not(move(CurrentState, R,C,Next, MoveCost)),
+    G>=PG ,write(CurrentState),nl. % Step 2.
 
-
-search(Open, [R,C],Closed):-
+isearch(Open, [R,C],Closed,Goal,G):-
     getBestState(Open, CurrentNode, TmpOpen), % takes the best node through F 
     getAllValidChildren(CurrentNode,[R,C],TmpOpen,Closed,Children), % Step3
     addChildren(Children, TmpOpen, NewOpen), % Step 4
     append(Closed, [CurrentNode], NewClosed), % append CurrentNode to Closed list as it is Visited.
-    search(NewOpen, [R,C],NewClosed). % Step 5.2% Implementation of step 3 to get the next states
+    isearch(NewOpen, [R,C],NewClosed,Goal,G). % Step 5.2% Implementation of step 3 to get the next states
+
+
+
+/*search(Open,[R,C] ,Closed,Goal):-
+    getBestState(Open, [CurrentState,Parent,G,H,F], _), % G actual cost ,H heuirstic cost ,F = G + H 
+    not(move(CurrentState, R,C,Next, MoveCost)), % Step 2
+    write("Search is complete!"), nl,
+    write([CurrentState,Parent,G,H,F]).*/
+
+solution(List):-
+   solution([],List).
+
+find_all_solutions(Open,[R,C] ,Closed,CurrentState,Acc, List) :-
+  search(Open,[R,C] ,Closed,CurrentState), % Replace with your predicate that finds a solution
+  append(Acc, [X], NewAcc), % Add the new solution to the accumulator list
+  find_all_solutions(Open,[R,C] ,Closed,CurrentState,NewAcc, List).
+ 
+find_all_solutions(Open,[R,C] ,Closed,CurrentState,List, List).
+
+search(Open, [R,C],Closed,G):-
+    getBestState(Open, CurrentNode, TmpOpen), % takes the best node through F 
+    getAllValidChildren(CurrentNode,[R,C],TmpOpen,Closed,Children), % Step3
+    addChildren(Children, TmpOpen, NewOpen), % Step 4
+    append(Closed, [CurrentNode], NewClosed), % append CurrentNode to Closed list as it is Visited.
+    search(NewOpen, [R,C],NewClosed,G). % Step 5.2% Implementation of step 3 to get the next states
+
+/*search(Open,[R,C] ,Closed,CurrentState,[[State,_,PG,_,_]|T]):-
+    getBestState(Open, [CurrentState,Parent,G,H,F], _), % G actual cost ,H heuirstic cost ,F = G + H 
+    not(move(CurrentState, R,C,Next, MoveCost)),PG > G,!. % Step 2*/
 
 
 
@@ -126,4 +162,3 @@ heuristic(Board,R,C,H):-
 
 
 isOkay(Next):-true.
-
