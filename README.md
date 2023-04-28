@@ -12,4 +12,5 @@ board and not allowed to lie on the bomb cell.
 ![Screenshot (125)](https://user-images.githubusercontent.com/105600225/234048938-9440321f-60ed-4ad2-a9d4-ea5be95ddc93.png)
 
 ![Screenshot (126)](https://user-images.githubusercontent.com/105600225/234048880-9822905f-8b6d-4364-97ab-f5c52de88fb6.png)
- Screenshot (133).png
+
+![Screenshot (133)](https://user-images.githubusercontent.com/105600225/235204634-5624ae38-7f03-4117-9bc2-f15c9bc73617.png)
