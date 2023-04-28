@@ -17,7 +17,9 @@ import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import org.jpl7.Query;
 import org.jpl7.Term;
 
@@ -31,14 +33,16 @@ import org.jpl7.Term;
  *
  * @author menna
  */
-public class gui extends javax.swing.JFrame {
+public class GUI extends javax.swing.JFrame {
 
     /**
      * Creates new form gui
      */
-    public gui() {
+    public GUI() {
        //initalizePuzzle();
-        initComponents(); 
+        initComponents();
+        strategy = new Uninformed(this);
+        curSlide=0;
         assignPuzzle(inputPanel);
     }
 
@@ -52,29 +56,32 @@ public class gui extends javax.swing.JFrame {
     private void initComponents() {
 
         TopBar = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        RowsLabel = new javax.swing.JLabel();
         Rows = new javax.swing.JSpinner();
-        jLabel2 = new javax.swing.JLabel();
+        ColsLabel = new javax.swing.JLabel();
         Cols = new javax.swing.JSpinner();
         resetBtn = new javax.swing.JButton();
         uninformedBtn = new javax.swing.JButton();
         informedBtn = new javax.swing.JButton();
         inputPanel = new javax.swing.JPanel();
+        MaxPanel = new javax.swing.JPanel();
+        MaxLabel = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         prevBtn = new javax.swing.JButton();
         outputPanel = new javax.swing.JPanel();
         nextBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(204, 204, 255));
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
 
         TopBar.setBackground(new java.awt.Color(204, 204, 255));
         resetBtn.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("Yu Gothic Medium", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("ROWS");
-        TopBar.add(jLabel1);
+        RowsLabel.setFont(new java.awt.Font("Yu Gothic Medium", 1, 24)); // NOI18N
+        RowsLabel.setForeground(new java.awt.Color(255, 255, 255));
+        RowsLabel.setText("ROWS");
+        TopBar.add(RowsLabel);
 
         Rows.setValue(2);
         Rows.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -84,10 +91,10 @@ public class gui extends javax.swing.JFrame {
         });
         TopBar.add(Rows);
 
-        jLabel2.setFont(new java.awt.Font("Yu Gothic Medium", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("COLUMNS");
-        TopBar.add(jLabel2);
+        ColsLabel.setFont(new java.awt.Font("Yu Gothic Medium", 1, 24)); // NOI18N
+        ColsLabel.setForeground(new java.awt.Color(255, 255, 255));
+        ColsLabel.setText("COLUMNS");
+        TopBar.add(ColsLabel);
 
         Cols.setValue(2);
         Cols.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -97,8 +104,10 @@ public class gui extends javax.swing.JFrame {
         });
         TopBar.add(Cols);
 
+        resetBtn.setBackground(new java.awt.Color(205, 205, 205));
         resetBtn.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
         resetBtn.setText("Reset");
+        resetBtn.setBorderPainted(false);
         resetBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         resetBtn.setMargin(new java.awt.Insets(4, 14, 2, 14));
         resetBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -108,6 +117,7 @@ public class gui extends javax.swing.JFrame {
         });
         TopBar.add(resetBtn);
 
+        uninformedBtn.setBackground(new java.awt.Color(205, 205, 205));
         uninformedBtn.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
         uninformedBtn.setText("Uninformed");
         uninformedBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -119,6 +129,7 @@ public class gui extends javax.swing.JFrame {
         });
         TopBar.add(uninformedBtn);
 
+        informedBtn.setBackground(new java.awt.Color(205, 205, 205));
         informedBtn.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
         informedBtn.setText("Informed");
         informedBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -138,14 +149,43 @@ public class gui extends javax.swing.JFrame {
         inputPanel.setLayout(inputPanelLayout);
         inputPanelLayout.setHorizontalGroup(
             inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGap(0, 1042, Short.MAX_VALUE)
         );
         inputPanelLayout.setVerticalGroup(
             inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 365, Short.MAX_VALUE)
+            .addGap(0, 346, Short.MAX_VALUE)
         );
 
         getContentPane().add(inputPanel);
+
+        MaxPanel.setBackground(new java.awt.Color(204, 204, 255));
+        MaxPanel.setMaximumSize(new java.awt.Dimension(32767, 400));
+        MaxPanel.setPreferredSize(new java.awt.Dimension(1042, 50));
+
+        MaxLabel.setBackground(new java.awt.Color(255, 255, 255));
+        MaxLabel.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
+        MaxLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        MaxLabel.setText("Maximum Dominoes: ");
+        MaxLabel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 1, 10, 1));
+        MaxLabel.setOpaque(true);
+        MaxPanel.add(MaxLabel);
+
+        javax.swing.GroupLayout MaxPanelLayout = new javax.swing.GroupLayout(MaxPanel);
+        MaxPanel.setLayout(MaxPanelLayout);
+        MaxPanelLayout.setHorizontalGroup(
+            MaxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MaxPanelLayout.createSequentialGroup()
+                .addGap(349, 349, 349)
+                .addComponent(MaxLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
+                .addGap(347, 347, 347))
+        );
+        MaxPanelLayout.setVerticalGroup(
+            MaxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(MaxLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(MaxPanel);
+        MaxPanel.setVisible(false);
 
         jPanel3.setBackground(new java.awt.Color(204, 204, 255));
         jPanel3.setBorder(BorderFactory.createEmptyBorder(10, 20,10,20));
@@ -184,7 +224,9 @@ public class gui extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
-           assignPuzzle(inputPanel); outputPanel.removeAll();
+        MaxPanel.setVisible(false);
+        curSlide=0;  curSlideChecker();
+        assignPuzzle(inputPanel); outputPanel.removeAll();
     }//GEN-LAST:event_resetBtnActionPerformed
 
     
@@ -244,7 +286,7 @@ public class gui extends javax.swing.JFrame {
           //List<Integer> skippedCells= new ArrayList<Integer>(); int skippedRowCell=-1;
           ArrayList<ArrayList<Integer>> skippedCells = new ArrayList<ArrayList<Integer>>();
         //  String strArray[] = s.split(",");  
-                     System.out.print((s));
+                 //    System.out.print((s));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
          for(Integer i=0,k=0;i<rows && k < s.length();i++){
@@ -311,14 +353,20 @@ public class gui extends javax.swing.JFrame {
         Map<String,Term>[] solutions = q.allSolutions(); 
         Set<String> ResultsSet = new HashSet<String>(); 
         for (Map<String, Term> sol :solutions) {
-        String s = (sol.toString()); ResultsSet.add(s); }
+        String s = (sol.get("X").toString()); ResultsSet.add(s); }
         Results = ResultsSet.toArray(new String[0]);
-        outputPanel.setBorder(BorderFactory.createEmptyBorder(10, 20,10,20));
-        outputPanel.setLayout(new GridBagLayout());
+        outputPanel.setBorder(BorderFactory.createEmptyBorder(10, 20,10,20)); 
+        outputPanel.setLayout(new GridBagLayout()); 
         output(Results[curSlide]); curSlideChecker();
     }
     private void uninformedBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uninformedBtnActionPerformed
-        generateSolution("uSearch");
+        MaxPanel.setVisible(false); curSlide=0;  strategy = new Uninformed(this); outputPanel.removeAll();
+        Results = strategy.generateSolution();
+        outputPanel.setBorder(BorderFactory.createEmptyBorder(10, 20,10,20)); 
+        outputPanel.setLayout(new GridBagLayout()); 
+        output(Results[curSlide]); curSlideChecker();
+
+       // generateSolution("uSearch");
     }//GEN-LAST:event_uninformedBtnActionPerformed
 
     private void prevBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevBtnActionPerformed
@@ -336,10 +384,17 @@ public class gui extends javax.swing.JFrame {
     }//GEN-LAST:event_nextBtnActionPerformed
 
     private void informedBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_informedBtnActionPerformed
-        // TODO add your handling code here:
+        MaxPanel.setVisible(true); curSlide=0;  strategy = new Informed(this); outputPanel.removeAll();
+        Results = strategy.generateSolution();
+        outputPanel.setBorder(BorderFactory.createEmptyBorder(10, 20,10,20)); 
+        outputPanel.setLayout(new GridBagLayout()); 
+        output(Results[curSlide]); 
+        //jPanel3.add(new JLabel("Maximum = 3"));
+     //   jLabel3.setVisible(true);
+        curSlideChecker();
+
     }//GEN-LAST:event_informedBtnActionPerformed
 
-    
     
     private void updatePanel(JPanel panel){
                       panel.revalidate(); panel.repaint(); panel.updateUI();
@@ -370,32 +425,42 @@ public class gui extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(gui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(gui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(gui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(gui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new gui().setVisible(true);
+                new GUI().setVisible(true);
             }
         });
     }
-    public JPanel getPanel(){return TopBar;}
+    public JLabel getLabel(){return MaxLabel;}
+    public JSpinner getRows(){return Rows;}
+    public JSpinner getCols(){return Cols;}
+    public JButton[][] getBtns(){return buttons;}
+    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSpinner Cols;
+    private javax.swing.JLabel ColsLabel;
+    private javax.swing.JLabel MaxLabel;
+    private javax.swing.JPanel MaxPanel;
     private javax.swing.JSpinner Rows;
+    private javax.swing.JLabel RowsLabel;
     private javax.swing.JPanel TopBar;
     private javax.swing.JButton informedBtn;
     private javax.swing.JPanel inputPanel;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JButton nextBtn;
     private javax.swing.JPanel outputPanel;
@@ -405,6 +470,6 @@ public class gui extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     private JButton[][] buttons;
     private String[] Results;
-    private int curSlide=0;
-   // private int Nsols=0;
+    private int curSlide;
+    private SearchStrategy strategy;
 }

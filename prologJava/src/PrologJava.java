@@ -19,6 +19,6 @@ public class PrologJava {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-      gui.main(null);
+      GUI.main(null);
     }
 }

@@ -8,14 +8,14 @@ search(Open,[R,C] ,Closed,G):-
     not(move(CurrentState, R,C,Next, MoveCost)), % Step 2
     !.
 
-optimal(Open,[R,C] ,Closed):-
+optimal(Open,[R,C] ,Closed,CurrentState,G):-
     search(Open,[R,C] ,Closed,G),
     isearch(Open,[R,C] ,Closed,CurrentState,G).
 
 isearch(Open,[R,C] ,Closed,CurrentState,PG):-
     getBestState(Open, [CurrentState,Parent,G,H,F], _), % G actual cost ,H heuirstic cost ,F = G + H 
     not(move(CurrentState, R,C,Next, MoveCost)),
-    G>=PG ,write(CurrentState),nl. % Step 2.
+    G>=PG ,nl. % Step 2.
 
 isearch(Open, [R,C],Closed,Goal,G):-
     getBestState(Open, CurrentNode, TmpOpen), % takes the best node through F 
