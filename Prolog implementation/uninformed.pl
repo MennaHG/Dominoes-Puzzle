@@ -1,6 +1,6 @@
 uSearch(Board, [R,C], Visited, Board):-
     not(action(Board, R, C, NewBoard)),
-    write("Search is Complete"), !.
+    prettyPrint(Board), !.
     
 
 uSearch(Board,[R,C],Visited, Goal):-
