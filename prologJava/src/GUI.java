@@ -298,10 +298,10 @@ public class GUI extends javax.swing.JFrame {
                     btn.setPreferredSize(size);
                                }
                 if(s.charAt(k)=='-'  ){ gbc.gridwidth=2;
-                                        btn.setIcon(resizeIcon(new ImageIcon("hdomino.jpg"),60,60));j++;k++;    }    
+                                        btn.setIcon(resizeIcon(new ImageIcon("hdomino.jpg"),120,60));j++;k++;    }    
                 if(s.charAt(k)=='l'  ){ 
                     gbc.gridheight=2; skippedCells.add(new ArrayList<Integer>(Arrays.asList(i+1,j))); 
-                    btn.setIcon(resizeIcon(new ImageIcon("vdomino.png"),60,60)); }               
+                    btn.setIcon(resizeIcon(new ImageIcon("vdomino.png"),60,120)); }               
                     outputPanel.add(btn,gbc);
                 k++;
                 }
