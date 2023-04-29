@@ -100,7 +100,11 @@ action(Board,Rows,Columns,NewBoard):-
     ).
 
     
-
+prettyPrint([]):-!.
+prettyPrint([Row|RestOfMatrix]):-
+    write(Row),nl,
+    prettyPrint(RestOfMatrix).
+    
 is_okay(Board):-true.
 
 /*
