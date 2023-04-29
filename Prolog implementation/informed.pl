@@ -3,7 +3,7 @@
 
 
 
-iSearch(Open,[R,C] ,Closed):-
+iSearch(Open,[R,C] ,Closed,CurrentState,G):-
     search(Open,[R,C] ,Closed,G),
     getAllOtherOptimalSolutions(Open,[R,C] ,Closed,CurrentState,G).
 

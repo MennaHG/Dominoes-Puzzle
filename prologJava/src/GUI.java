@@ -13,6 +13,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -36,10 +37,9 @@ import org.jpl7.Term;
 public class GUI extends javax.swing.JFrame {
 
     /**
-     * Creates new form gui
+     * Creates new form GUI
      */
     public GUI() {
-       //initalizePuzzle();
         initComponents();
         strategy = new Uninformed(this);
         curSlide=0;
@@ -237,11 +237,9 @@ public class GUI extends javax.swing.JFrame {
     }
     
     private JButton createPuzzleItem(){
-           JButton btn = new JButton();    //btn.setPreferredSize(new Dimension(60,60));
+           JButton btn = new JButton();    
                     btn.setMinimumSize(new Dimension(90,90));
                     btn.addActionListener((java.awt.event.ActionEvent evt) -> {
-                        //btn.setText("Clicked!");
-                        //   btn.getSize().height;
                         Icon icon = (btn.getIcon() == null )?resizeIcon(new ImageIcon("bomb.png"),80,80):null;
                         btn.setIcon(icon);
                         if(icon == null){Dimension size = btn.getPreferredSize();
@@ -258,10 +256,7 @@ public class GUI extends javax.swing.JFrame {
         int x=  (Integer) Rows.getValue(); int y=  (Integer) Cols.getValue();  
         jPanel.setBorder(BorderFactory.createEmptyBorder(10, 20,10,20));
         buttons = new JButton[x][y];
-           // jPanel2.add(btn,0,0);
-           // jPanel2.add(btn,1,0);
             jPanel.removeAll();
-            //jPanel2.add(btn,0,2);
             for(int i=0;i<x;i++){
                 for(int j=0; j<y; j++){ 
                     buttons[i][j]= createPuzzleItem();  jPanel.add(buttons[i][j]);
@@ -276,25 +271,17 @@ public class GUI extends javax.swing.JFrame {
 
     private void RowsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_RowsStateChanged
         assignPuzzle(inputPanel);
-// TODO add your handling code here:
     }//GEN-LAST:event_RowsStateChanged
 
     
-    private void output(String s){
-            outputPanel.removeAll();
+    private void output(String s){ outputPanel.removeAll();
           s=s.replaceAll("[^*lO-]","");int rows = (int) Rows.getValue(), cols= (int) Cols.getValue();
-          //List<Integer> skippedCells= new ArrayList<Integer>(); int skippedRowCell=-1;
           ArrayList<ArrayList<Integer>> skippedCells = new ArrayList<ArrayList<Integer>>();
-        //  String strArray[] = s.split(",");  
-                 //    System.out.print((s));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
          for(Integer i=0,k=0;i<rows && k < s.length();i++){
                 for(Integer j=0;j<cols && k < s.length();j++){
-                  //   System.out.print(strArray[k]);
-                  //   outputPanel.add(new JButton(strArray[k++]));
                   if( skippedCells.contains(new ArrayList<Integer>(Arrays.asList(i,j))) && s.charAt(k) == 'l'){ 
-                       //    System.out.println("SKIPPED AT: ["+i+"]["+j+"] char:"+s.charAt(k)+"NOW TO: i= "+(i)+" j= "+(j+1));
                             skippedCells.remove(j); k++; continue;   }
                   gbc.gridx = j;
                   gbc.gridy = i;
@@ -302,10 +289,9 @@ public class GUI extends javax.swing.JFrame {
                   gbc.gridheight=1;
                   JButton btn = new JButton();
                 if(s.charAt(k)=='O'  ){ btn.setIcon(resizeIcon(new ImageIcon("bomb.png"),60,60)); 
-                  // System.out.println("Height=" + buttons[i][j].getPreferredSize().height+"\nWidth= "+buttons[i][j].getPreferredSize().width);
-
+               
                 }
-                if(s.charAt(k)=='*'  ){ //btn.setIcon(resizeIcon(new ImageIcon(""),60,60));   
+                if(s.charAt(k)=='*'  ){  
                     Dimension size = btn.getPreferredSize();
                     size.width += 60;
                     size.height += 60;
@@ -314,51 +300,15 @@ public class GUI extends javax.swing.JFrame {
                 if(s.charAt(k)=='-'  ){ gbc.gridwidth=2;
                                         btn.setIcon(resizeIcon(new ImageIcon("hdomino.jpg"),60,60));j++;k++;    }    
                 if(s.charAt(k)=='l'  ){ 
-                    gbc.gridheight=2; skippedCells.add(new ArrayList<Integer>(Arrays.asList(i+1,j))); //skippedRowCell=i+1;
+                    gbc.gridheight=2; skippedCells.add(new ArrayList<Integer>(Arrays.asList(i+1,j))); 
                     btn.setIcon(resizeIcon(new ImageIcon("vdomino.png"),60,60)); }               
                     outputPanel.add(btn,gbc);
                 k++;
                 }
             }    
                  updatePanel(outputPanel);
-
-        }
-   
+}
     
-    private String generateInputQuery(String searchTechnique){
-        String query=searchTechnique+"(["; int rows = (int) Rows.getValue(), cols= (int) Cols.getValue();
-        for(int i=0;i<rows;i++){
-            query+="[";
-            for(int j=0;j<cols;j++){
-                //char boardItem = 'O'; 
-              //  System.out.println( (buttons[i][j].getIcon()==null)?"null":"NOTnull");
-
-                query+=(buttons[i][j].getIcon() == null)?"*":"'O'";
-                query+=(j<cols-1)?",":"";
-            }
-            query+=(i<rows -1)?"],":"]";
-        }
-    return query+"],["+rows+","+cols+"],[],X)";
-    }
-    
-    
-    private void generateSolution(String searchStrategy){
-        outputPanel.removeAll();
-     //   System.out.print(generateInputQuery("uSearch));
-     // Query q = new Query("consult('file1.pl'), consult('file2.pl')");
-        Query q = new Query("consult('../Prolog implementation/board.pl'),consult('../Prolog implementation/uninformed.pl')"); 
-     //   int rows = (int) Rows.getValue(), cols= (int) Cols.getValue();
-       q.hasSolution();
-        q= new Query(generateInputQuery(searchStrategy));
-        Map<String,Term>[] solutions = q.allSolutions(); 
-        Set<String> ResultsSet = new HashSet<String>(); 
-        for (Map<String, Term> sol :solutions) {
-        String s = (sol.get("X").toString()); ResultsSet.add(s); }
-        Results = ResultsSet.toArray(new String[0]);
-        outputPanel.setBorder(BorderFactory.createEmptyBorder(10, 20,10,20)); 
-        outputPanel.setLayout(new GridBagLayout()); 
-        output(Results[curSlide]); curSlideChecker();
-    }
     private void uninformedBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uninformedBtnActionPerformed
         MaxPanel.setVisible(false); curSlide=0;  strategy = new Uninformed(this); outputPanel.removeAll();
         Results = strategy.generateSolution();
@@ -366,20 +316,17 @@ public class GUI extends javax.swing.JFrame {
         outputPanel.setLayout(new GridBagLayout()); 
         output(Results[curSlide]); curSlideChecker();
 
-       // generateSolution("uSearch");
     }//GEN-LAST:event_uninformedBtnActionPerformed
 
     private void prevBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevBtnActionPerformed
                 curSlide--;
             curSlideChecker();
-       // System.out.println("SOLUTION NUMBER: "+(curSlide));
         output(Results[curSlide]);
     }//GEN-LAST:event_prevBtnActionPerformed
 
     private void nextBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextBtnActionPerformed
         curSlide++;
        curSlideChecker();
-       // System.out.println("SOLUTION NUMBER: "+(curSlide));
         output(Results[curSlide]);
     }//GEN-LAST:event_nextBtnActionPerformed
 
@@ -389,8 +336,6 @@ public class GUI extends javax.swing.JFrame {
         outputPanel.setBorder(BorderFactory.createEmptyBorder(10, 20,10,20)); 
         outputPanel.setLayout(new GridBagLayout()); 
         output(Results[curSlide]); 
-        //jPanel3.add(new JLabel("Maximum = 3"));
-     //   jLabel3.setVisible(true);
         curSlideChecker();
 
     }//GEN-LAST:event_informedBtnActionPerformed

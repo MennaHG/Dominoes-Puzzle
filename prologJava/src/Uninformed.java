@@ -33,9 +33,6 @@ public class Uninformed extends SearchStrategy{
         for(int i=0;i<rows;i++){
             query+="[";
             for(int j=0;j<cols;j++){
-                //char boardItem = 'O'; 
-              //  System.out.println( (buttons[i][j].getIcon()==null)?"null":"NOTnull");
-
                 query+=(buttons[i][j].getIcon() == null)?"*":"'O'";
                 query+=(j<cols-1)?",":"";
             }
@@ -47,11 +44,7 @@ public class Uninformed extends SearchStrategy{
 
     @Override
     String[] generateSolution() {
-         //   outputPanel.removeAll();
-     //   System.out.print(generateInputQuery("uSearch));
-     // Query q = new Query("consult('file1.pl'), consult('file2.pl')");
         Query q = new Query("consult('../Prolog implementation/board.pl'),consult('../Prolog implementation/uninformed.pl')"); 
-     //   int rows = (int) Rows.getValue(), cols= (int) Cols.getValue();
        q.hasSolution();
         q= new Query(generateInputQuery());
         Map<String,Term>[] solutions = q.allSolutions(); 
