@@ -1,5 +1,5 @@
-%Query:-iSearch([[[[*, *, 'O'], ['O', *,*],[*,*,*]],null,0,0,0]],[3,3] ,[]).
-%Query:-iSearch([[[[*, *, *,*], [*, 'O', 'O',*]],null,0,0,0]],[2,4] ,[]).
+%Query:-iSearch([[[[*, *, 'O'], ['O', *,*],[*,*,*]],null,0,0,0]],[3,3] ,[],C,G).
+%Query:-iSearch([[[[*, *, *,*], [*, 'O', 'O',*]],null,0,0,0]],[2,4] ,[],C,G).
 
 
 
@@ -25,7 +25,7 @@ getAllOtherOptimalSolutions(Open, [R,C],Closed,Goal,G):-
 %baseCase
 search(Open,[R,C] ,Closed,G):-
     getBestState(Open, [CurrentState,Parent,G,H,F], _), % G actual cost ,H heuirstic cost ,F = G + H 
-    not(move(CurrentState, R,C,Next, MoveCost)), % Step 2
+    not(move(CurrentState, R,C,Next, MoveCost)), % Step 2 no more moves to be done
     write(G),write(" is maximum number of dominoes that can be placed."),nl,
     !.
 
@@ -77,10 +77,8 @@ findMax([Head|T], Max):-
     TmpMax = [_,_,_,TmpH,TmpF],
     (TmpF > HeadF -> Max = TmpMax ; Max = Head). % A* search
 
-% Instead of adding children at the end and searching for the best
-% each time using getBestState, we can make addChildren add in the
-% right place (sorted open list) and getBestState just returns the
-% head of open.
+
+% right place (sorted open list) and getBestState just returns the head of open.
 
     
 
